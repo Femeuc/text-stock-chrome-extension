@@ -4,21 +4,26 @@ console.log("background running!");
 chrome.contextMenus.create({
     "contexts": ["selection"], // this line makes the option available only on selected text
     "visible": true, 
-    "onclick": printSth, // function triggered clicking the option
-    "title": "Felipe Option"
+    "onclick": addText, // function triggered clicking the option
+    "title": "Add Text"
 });
 
-// This is what happens then option is clicked
-function printSth(info, tab) {
-    console.log("Click em mim!"); 
-    console.log(info.selectionText)
-    console.log(info.editable)
+var selectedText = ""; // global variable // it used the popup.js
 
-    chrome.tabs.query({ // Sends the selected text to different contexts
-        active: true, 
-        currentWindow: true
-    }, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, info.selectionText);
-    });
+chrome.storage.sync.get(['text'], function(result) {
+  if(result.text) {
+    selectedText = result.text;
+  } 
+});
+chrome.storage.sync.clear();
+function addText(info) {
+    
+    let text = selectedText + ";;;" + info.selectionText;
+    // Save it using the Chrome extension storage API.
+    chrome.storage.sync.set({'text': text});
+
+    selectedText = text;
+    console.log(text);
+    return;
+    chrome.storage.sync.clear();
 }
-

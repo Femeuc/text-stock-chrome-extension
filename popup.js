@@ -1,8 +1,3 @@
-console.log("Popup.js running!!!")
-let h1 = document.getElementById("target");
-chrome.runtime.onMessage.addListener( // receives the message sent from background.js
-    function(request, sender, sendResponse) { 
-        console.log(request);
-        h1.innerHTML = request;
-        h1.style.display = "none";
-});
+let textItem = document.getElementsByClassName("text-item")[0];
+var background = chrome.extension.getBackgroundPage(); //do this in global scope for popup.js
+textItem.innerHTML = background.selectedText;
