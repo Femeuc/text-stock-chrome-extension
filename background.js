@@ -15,7 +15,7 @@ chrome.storage.sync.get(['text'], function(result) {
     selectedText = result.text;
   } 
 });
-chrome.storage.sync.clear();
+
 function addText(info) {
     
     let text = selectedText + ";;;" + info.selectionText;
