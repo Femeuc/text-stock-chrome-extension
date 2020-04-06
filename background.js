@@ -10,20 +10,32 @@ chrome.contextMenus.create({
 
 var selectedText = ""; // global variable // it used the popup.js
 
+// Fill the selectedText variable when the extension first loads
 chrome.storage.sync.get(['text'], function(result) {
   if(result.text) {
     selectedText = result.text;
   } 
 });
 
+// Adds the selected text to the chrome storage
 function addText(info) {
     
     let text = selectedText + ";;;" + info.selectionText;
     // Save it using the Chrome extension storage API.
     chrome.storage.sync.set({'text': text});
-
+    return;
     selectedText = text;
     console.log(text);
-    return;
-    chrome.storage.sync.clear();
 }
+
+// Updates the selectedText variable whenever the storage updates
+chrome.storage.onChanged.addListener(function(changes) {
+  chrome.storage.sync.get(['text'], function(result) {
+    if(result.text) {
+      selectedText = result.text;
+    } else {
+      selectedText = "";
+    } 
+  });
+  console.log(changes);
+});
