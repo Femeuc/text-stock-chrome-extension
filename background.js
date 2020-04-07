@@ -12,7 +12,6 @@ chrome.contextMenus.create({
 chrome.storage.sync.get(['text'], function(result) {
   if(result.text) {
     updateArrayOfText(result.text);
-    selectedText = result.text;
   } else {
     updateArrayOfText("");
   }
@@ -51,4 +50,5 @@ var arrayOfText;
 
 function updateArrayOfText(textToMakeArray) {
   arrayOfText = textToMakeArray.split(";;;"); 
+  console.log(arrayOfText.length);
 }
