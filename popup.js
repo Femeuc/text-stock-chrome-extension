@@ -3,12 +3,12 @@ var background = chrome.extension.getBackgroundPage(); //do this in global scope
 
 var counter = 0;
 
-for(item of background.arrayOfText) {
-    if(background.arrayOfText.length == 1) { // If there is only one element, then it is 
-        break;  // an empty string, so we don't need to create an <li> element
+for(let i = 0; i < background.arrayOfText.length; i++) {
+    if(i == 0) {    // The first element is just an empty string, so we don't need    
+        continue;   // an <li> element for it.
     }
     let listItem = document.createElement("li");
-    listItem.innerHTML = item;
+    listItem.innerHTML = background.arrayOfText[i];
     textList.appendChild(listItem);
     if(listItem.innerHTML.length > counter) {
         counter = listItem.innerHTML.length;
