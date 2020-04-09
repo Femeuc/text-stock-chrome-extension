@@ -49,3 +49,11 @@ inputButton.onclick = function () {
         }
     }
 }
+
+if(background.arrayOfText.length == 1) {
+    document.getElementById("h1").innerHTML = "[ no text added yet ]";
+    document.getElementById('input-div').setAttribute("class", "input-div invisible");
+} else {
+    document.getElementById("h1").innerHTML = "Text added";
+    document.getElementById('input-div').setAttribute("class", "input-div");
+}

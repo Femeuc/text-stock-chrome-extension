@@ -24,13 +24,10 @@ function addText(info) {
       if(result.text) {
         let storedText = result.text;
         text = storedText + ";;;" + info.selectionText;
-        console.log("STORED TEXT: " + storedText);
         chrome.storage.sync.set({'text': text});
-        console.log("TEXT APENAS: " + text);
       } else {
         text = ";;;" + info.selectionText;
         chrome.storage.sync.set({'text': text});
-        console.log("TEXT APENAS: " + text);
       }
     });
 }
@@ -50,5 +47,4 @@ var arrayOfText;
 
 function updateArrayOfText(textToMakeArray) {
   arrayOfText = textToMakeArray.split(";;;"); 
-  console.log(arrayOfText.length);
 }
