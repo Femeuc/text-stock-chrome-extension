@@ -8,15 +8,6 @@ chrome.contextMenus.create({
     "title": "Add Text"
 }); 
 
-// Fill the selectedText variable when the extension first loads
-chrome.storage.sync.get(['text'], function(result) {
-  if(result.text) {
-    updateArrayOfText(result.text);
-  } else {
-    updateArrayOfText("");
-  }
-});
-
 // Adds the selected text to the chrome storage
 function addText(info) {
     let text;
@@ -30,21 +21,4 @@ function addText(info) {
         chrome.storage.sync.set({'text': text});
       }
     });
-}
-
-// Updates the selectedText variable whenever the storage updates
-chrome.storage.onChanged.addListener(function(changes) {
-  chrome.storage.sync.get(['text'], function(result) {
-    if(result.text) {
-      updateArrayOfText(result.text);
-    } else {    // empty the arrayOfText
-      updateArrayOfText("");  // This will be executed when the user clears the storage
-    } 
-  });
-});
-
-var arrayOfText;
-
-function updateArrayOfText(textToMakeArray) {
-  arrayOfText = textToMakeArray.split(";;;"); 
 }
