@@ -3,14 +3,6 @@
     "name": "Text Stock",
     "description": "Save words and phrases for later use",
     "version": "1.0.0",
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": ["content.js"]
-        }
-    ],
     "background": {
         "scripts": ["background.js"]
     },
