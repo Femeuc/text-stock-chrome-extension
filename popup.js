@@ -15,10 +15,10 @@ chrome.storage.sync.get(['text'], function(result) { // this function will initi
 });
 
 var inputButton = document.getElementById('inputButton');
-inputButton.onclick = function () {
+inputButton.onclick = function () { //TODO
     let userInput = document.getElementById("inputField").value;
     for(let i = 0; i < textList.childNodes.length; i++) {
-        if(i == userInput) {
+        if(i == userInput - 1) {
             let textToBeDeleted = textList.childNodes[i]; 
             textToBeDeleted.removeChild(textToBeDeleted.childNodes[1]); // this removes the <span> element
             textList.removeChild(textList.childNodes[i]);
@@ -35,13 +35,14 @@ inputButton.onclick = function () {
 }
 
 chrome.storage.onChanged.addListener(function(changes) {
-    document.getElementById("h1").innerHTML = "[ no text added yet ]";
     chrome.storage.sync.get(['text'], function(result) { // this function will initialize
         if(result.text) {                                // the arrayOfText variable
             updateArrayOfText(result.text);
         } else {
             updateArrayOfText("");
         }
+        deleteListOfText();
+        loadListOfText();
     });
 });
 
@@ -85,5 +86,12 @@ function setHeadingText() {
     } else {
         document.getElementById("h1").innerHTML = "Text added";
         document.getElementById('input-div').setAttribute("class", "input-div");
+    }
+}
+
+function deleteListOfText() {
+    while(textList.childNodes.length) {
+        textList.childNodes[0].remove();
+        console.log(textList);
     }
 }
