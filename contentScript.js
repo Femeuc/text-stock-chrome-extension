@@ -1,5 +1,8 @@
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      if (request.greeting == "hello")
-        sendResponse({selectedText: selection = window.getSelection().toString()});
+      let selectionText = window.getSelection().toString();
+      if (request && selectionText)
+        sendResponse({selectedText: selectionText});
+      else
+        console.log(false);
 });
