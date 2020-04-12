@@ -3,6 +3,12 @@
     "name": "Text Stock",
     "description": "Save words and phrases for later use",
     "version": "1.0.0",
+    "content_scripts": [
+        {
+          "matches": ["<all_urls>"],
+          "js": ["contentScript.js"]
+        }
+    ],
     "background": {
         "scripts": ["background.js"]
     },
@@ -19,5 +25,13 @@
     "options_ui": {
         "page": "options.html",
         "open_in_tab": false
+    },
+    "commands": {
+        "add_text": {
+          "suggested_key": {
+            "default": "Ctrl+Shift+A"
+          },
+          "description": "Send a 'toggle-feature' event"
+        }
     }
 }

@@ -22,3 +22,27 @@ function addText(info) {
       }
     });
 }
+
+chrome.commands.onCommand.addListener(function(command) {
+  if (command == "add_text") {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
+        addToStorage(response.selectedText);
+      });
+    });
+  }
+});
+
+function addToStorage(data) {
+  chrome.storage.sync.get(['text'], function(result) {
+    let text;
+    if(result.text) {
+      let storedText = result.text;
+      text = storedText + ";;;" + data;
+      chrome.storage.sync.set({'text': text});
+    } else {
+      text = ";;;" + data;
+      chrome.storage.sync.set({'text': text});
+    }
+  });
+}
