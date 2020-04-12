@@ -4,12 +4,30 @@
     <title>Text Stock Options</title>
     <link rel="stylesheet" href="style.css"/>
     <style>
-        
+        body {
+            padding: 0px 20px;
+            text-align: center;
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h1 {
+            display: none;
+        }
+        button {
+            padding: 10px 15px;
+            border-radius: 7px;
+            border: 1px solid #555;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ddd;
+        }
     </style>
 </head>
 <body>
     <h1>Options page</h1>
     <button id="clear-button">Clear Stock</button>
+    <p>This will erase all data you have saved!</p>
     <script src="options.js"></script>
 </body>
 </html>

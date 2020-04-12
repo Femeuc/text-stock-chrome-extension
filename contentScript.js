@@ -3,6 +3,4 @@ chrome.runtime.onMessage.addListener(
       let selectionText = window.getSelection().toString();
       if (request && selectionText)
         sendResponse({selectedText: selectionText});
-      else
-        console.log(false);
 });
