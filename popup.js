@@ -15,7 +15,7 @@ chrome.storage.sync.get(['text'], function(result) { // this function will initi
 });
 
 var inputButton = document.getElementById('inputButton');
-inputButton.onclick = function () { //TODO
+inputButton.onclick = function () {
     let userInput = document.getElementById("inputField").value;
     for(let i = 0; i < textList.childNodes.length; i++) {
         if(i == userInput - 1) {
@@ -23,7 +23,7 @@ inputButton.onclick = function () { //TODO
             textToBeDeleted.removeChild(textToBeDeleted.childNodes[1]); // this removes the <span> element
             textList.removeChild(textList.childNodes[i]);
             let newTextToBeAdded = arrayOfText.filter((text) => {
-                if(text !== textToBeDeleted.innerHTML) {
+                if(text !== textToBeDeleted.innerText) {
                     return true;
                 }
                 return false;
