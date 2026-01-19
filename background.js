@@ -1,37 +1,44 @@
-// This creates an option for when the user right clicks a selected text
-chrome.contextMenus.create({
-    "contexts": ["selection"], // this line makes the option available only on selected text
-    "visible": true, 
-    "onclick": addSelectedTextToStorage,
-    "title": "Add Text"
-}); 
+// Cria o menu UMA ÚNICA VEZ
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: "add-text",
+    title: "Add Text",
+    contexts: ["selection"]
+  });
+});
 
-function addSelectedTextToStorage(info) {
+// Clique no menu de contexto
+chrome.contextMenus.onClicked.addListener((info) => {
+  if (info.menuItemId === "add-text" && info.selectionText) {
     addStringToStorage(info.selectionText);
-}
+  }
+});
 
-chrome.commands.onCommand.addListener(function(command) {
-  if (command == "add_text") {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {isShortcutPressed: true});
-      chrome.runtime.onMessage.addListener(function(request) {
-        addStringToStorage(request.selectedText);
-      });
+// Atalho de teclado
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "add_text") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "GET_SELECTION" });
     });
   }
 });
 
-// ";;;" is a separator. It is intended to separate the text that will be added, 
-// since they will all be added to the same variable in the storage
+// Recebe texto do content script
+chrome.runtime.onMessage.addListener((request) => {
+  if (request.selectedText) {
+    addStringToStorage(request.selectedText);
+  }
+});
+
+// Storage
 function addStringToStorage(strg) {
-  chrome.storage.sync.get(['text'], function(result) {
-    let text;
-    if(result.text) {   
-      text = result.text + ";;;" + strg;        
-      chrome.storage.sync.set({'text': text});  
-    } else {                                    
-      text = ";;;" + strg;                      
-      chrome.storage.sync.set({'text': text});  
-    }
+  if (!strg) return;
+
+  chrome.storage.sync.get(["text"], (result) => {
+    const newText = result.text
+      ? result.text + ";;;" + strg
+      : strg;
+
+    chrome.storage.sync.set({ text: newText });
   });
 }
